@@ -1,0 +1,126 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 1, 2023, 4:30:24 PM
+    Author     : ADMIN
+*/
+
+.product_container{
+    text-align: center;
+}
+.list_product_ex {
+    max-width: 1400px;
+    height: 480px;
+    margin: auto;
+/*    padding-bottom: 30px;*/
+   margin-left: 60px;
+   margin-top: 30px;
+    overflow: auto;
+}
+/*.list_product{
+    display: flex;
+    justify-content: space-around;
+}*/
+.list_product_ex .product {
+    width: 250px;
+    height: 350px;
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 10%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+    border-radius: 10px;
+    margin: 15px;
+    padding: 10px;
+    background: rgb(255, 255, 255);
+    float: left;
+    font-family: sans-serif;
+    margin-right: 20px;
+}
+
+.product_a {
+    text-decoration: none;
+}
+
+.list_product_ex .product .product_infor {
+    text-align: center;
+    height: 150px;
+}
+
+.product_infor p {
+    font-size: 20px;
+    color: red;
+}
+
+.list_product_ex .product .product_img {
+    width: 230px;
+    height: 150px;
+    margin: 10px;
+}
+
+.list_product_ex .product img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.list_product_ex .product_name {
+    height: 40px;
+    color: #551a8b;
+}
+
+.list_product_ex .product_button {
+    width: 150px;
+    margin: 20px 10px;
+    margin-top: 85px;
+}
+
+.list_product_ex .product_button_detail {
+    width: 220px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-top: 5px;
+    margin-bottom: 5px; */
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 5px;
+
+}
+
+.product .product_button_order {
+    display: flex;
+    justify-content: space-between;
+    width: 230px;
+}
+
+.product .order {
+    width: 120px;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+}
+
+.product .product_button a {
+    text-decoration: none;
+    color: red;
+    display: block;
+    line-height: 40px;
+}
+
+.order i {
+    font-size: 20px;
+}
+
+.product .product_button_detail :hover{
+    background-color: red;
+    color: white;
+}
+
+.order :hover {
+    background-color: red;
+    color: white;
+}

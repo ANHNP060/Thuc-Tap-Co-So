@@ -1,0 +1,172 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 4, 2023, 9:33:48 PM
+    Author     : ADMIN
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+html{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.width{
+    width: 100%;
+}
+
+text-center{
+    text-align: center !important;
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+body {
+    
+  background-color: #f4f4f4;
+  color: #777777;
+  line-height: 18px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: normal;
+  visibility: visible;
+  font-family: "Open Sans", sans-serif;
+  color: #777777;
+  overflow-x: hidden;
+}
+
+
+
+#signup-container{
+    display: flex;
+    width: 700px;
+    max-width: 100%;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 34px 0 34px;
+    text-decoration: none solid rgb(74,74,74);
+    background-color: #fff;
+    color: #4a4a4a;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}
+.navbar-container{
+    display: flex;
+    height: 53px;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+}
+.arrow_left{
+    padding:   16px 16px ;
+}
+
+
+.navbar_title{
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 33px;
+    margin: 0 0 0 20px;
+    padding: 10px 10px 10px 0px;
+}
+
+video{
+    width: 600px;
+    height: 300px;
+    margin-left: 50px;
+    margin-bottom: 30px;
+}
+
+#signup-container .login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.login-form__tille{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group__item-button{
+    font-size: 14px;
+    line-height: 40px;
+    padding: 0 15px;
+    text-decoration: none solid rgb(34, 34, 34);
+    border: 1px solid #fafafa;
+    border-radius:50px;
+    
+    width: 500px;
+    color: #222222;
+    background-position: 0%;
+    background-color: #fafafa;
+}
+input[type=checkbox] {
+    margin-right: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.form-submit-btn{
+	width: 100%;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none solid rgb(255,255,255) ;
+    margin: 20px 0 20px 0;
+    padding: 11px 0 11px 0;
+    cursor: pointer;
+    background-color: #fd2424;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50px;
+}
+#signup-container .items-center{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.items-center a{
+    color: red;
+    text-decoration: none;
+}
+.form-group__item{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+.form-group__item small{
+	color: red;
+}
+.form-group__item span{
+    position: absolute;
+    border-bottom: 2px solid red;
+    top: 39px;
+    left: 0;
+    transition: 0.3s;
+}
+
+.form-group__item.error small{
+    color: red;
+}
+.form-group__item.error input{
+    border-bottom: 2px solid red;
+
+}
+.form-group__item small{
+    padding-left: 20px;
+}

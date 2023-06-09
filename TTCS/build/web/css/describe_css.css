@@ -1,0 +1,141 @@
+
+
+.product {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    font-family: Tahoma,Geneva,sans-serif;
+    overflow: auto;
+    background: rgb(253, 243, 243);
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 10%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+
+.product_name {
+    margin: 50px 50px 0px 50px;
+}
+
+.product hr{
+    border: 1px solid gray;
+}
+
+.product_img {
+    width: 450px;
+    height: 500px;
+    float: left;
+    margin: 50px 50px 20px 50px;
+    padding: 25px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 10%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+.product_img img {
+    width: 100%;
+}
+
+.product_content {
+    float: left;
+    width: 500px;
+    display: block;
+    padding: 20px;
+}
+
+
+.product_content_features {
+    padding: 11px 0px 10px 3px;
+    border-top: 1px solid gray;
+}
+
+
+
+.product_content_features label{
+    display: inline-block;
+    width: 200px;
+    float: left;
+}
+
+.product_content_features span {
+    display: block;
+    margin-left: 205px;
+}
+
+.product_order {
+    width: 500px;
+    border-radius: 10px;
+    clear: left;
+    font-size: 23px;
+    margin: 50px;
+    background: white;
+}
+
+.product_order_price {
+    margin: 10px;
+}
+
+.product_order_price label {
+    margin-left: 30px;
+    margin-right: 20px;
+    line-height: 70px;
+}
+
+.product_order_price input {
+    width: 50px;
+    height: 50px;
+    margin: 20px;
+    line-height: 50px;
+    font-size: 30px;
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.product_order_price span {
+    margin-left: 100px;
+    color: red;
+}
+
+.product_order_button {
+    display: flex;
+}
+
+.product_order_button a {
+    text-decoration: none;
+    display: block;
+    padding: auto;
+    color: red;
+}
+
+.product_order_button .button_1{
+    width: 350px;
+    line-height: 50px;
+    border: 3px solid red;
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px;
+    color: red;
+}
+
+.product_order_button .button_2 {
+    width: 100px;
+    margin: 10px;
+    line-height: 50px;
+    border: 3px solid red;
+    text-align: center;
+    border-radius: 10px;
+    color: red;
+}
+
+.product_order_button a:hover{
+    background-color: red;
+    color: white;
+}
+
+.product_infor {
+    margin: 50px;
+}
+
+.product_infor a {
+    text-decoration: none;
+    color: red;
+}
