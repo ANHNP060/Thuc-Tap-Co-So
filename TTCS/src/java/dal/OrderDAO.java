@@ -1,57 +1,114 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dal;
+
+import model.Order;
+import model.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import model.Cart;
-import model.Item;
-import model.User;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author ADMIN
- */
 public class OrderDAO extends DBContext{
-    public void addOrder(User u,Cart cart){
-        //ngay hien thoi
-        LocalDate userDate = java.time.LocalDate.now();
-        String date = userDate.toString();
+
+    private String query;
+    private PreparedStatement pst;
+    private ResultSet rs;
+
+    public OrderDAO() {
+        super();
+    }
+    public List<Order> getAllOrderByUserId(int UserId){
+		List<Order> list = new ArrayList<>();
+		String sql = "select * from Orders where userId=?";
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setInt(1, UserId);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				Order o = new Order();
+				o.setOrderId(rs.getInt(1));
+				o.setProId(rs.getInt(2));
+				ProductDAO proDAO = new ProductDAO();
+				Product p = proDAO.getProductByProId(rs.getInt(2));
+				o.setNamePro(p.getNamePro());
+                o.setImagePro(p.getImagePro());
+                o.setPrice(p.getPrice());
+                o.setQuantity(p.getQuantity());
+                o.setCateId(p.getCateId());
+                o.setDesId(p.getDesId());
+				o.setUid(rs.getInt(3));
+				o.setQuantity(rs.getInt(4));
+				o.setDate(rs.getString(5));
+				list.add(o);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return list;
+	}
+
+	
+//    them mot san pham vao database orders
+    public boolean insertOrder(Order model) {
+        boolean result = false;
         try {
-            String sql = "insert into Orders values(?,?,?)";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,date);
-            st.setInt(2, u.getUserId());
-            st.setInt(3, cart.getTotalMoney());
-            st.executeUpdate();
-            
-            // Lấy ra id của order vừa add
-            String sql1 = "select top 1 OrderId from Orders order by OrderId desc";
-            PreparedStatement st1 = connection.prepareStatement(sql1);
-            ResultSet rs = st1.executeQuery();
-            
-            
-            // Thêm vào bảng OrderLine
-            if(rs.next()){
-                int OrderId = rs.getInt(1);
-                for(Item i:cart.getItems()){
-                    String sql2 = "insert into OrderLine values (?,?,?,?)";
-                    PreparedStatement st2 = connection.prepareStatement(sql2);
-                    st2.setInt(1, OrderId);
-                    st2.setInt(2, i.getProduct().getProId());
-                    st2.setInt(3,i.getQuantity());
-                    st2.setInt(4,i.getPrice());
-                    st2.executeUpdate();
-                }
-            }
-            
+            query = "insert into Orders (ProId, userId, oQuantity, oDate) values(?,?,?,?)";
+            pst = connection.prepareStatement(query);
+            pst.setInt(1, model.getProId());
+            pst.setInt(2, model.getUid());
+            pst.setInt(3, model.getQuantity());
+            pst.setString(4, model.getDate());
+            pst.executeUpdate();
+            result = true;
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
+        return result;
+    }
+
+    //???
+    public List<Order> userOrders(int id) {
+        List<Order> list = new ArrayList<>();
+        try {
+            query = "select * from Orders where userId=? order by Orders.oId desc";
+            pst = connection.prepareStatement(query);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                ProductDAO productDao = new ProductDAO();
+                int pId = rs.getInt("ProId");
+                Product product = productDao.getProductByProId(pId);
+                order.setOrderId(rs.getInt("oId"));
+                order.setProId(pId);
+                order.setNamePro(product.getNamePro());
+                order.setCateId(product.getCateId());
+                order.setPrice(product.getPrice()*rs.getInt("oQuantity"));
+                order.setQuantity(rs.getInt("oQuantity"));
+                order.setDate(rs.getString("oDate"));
+                list.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public void cancelOrder(int id) {
+        //boolean result = false;
+        try {
+            query = "delete from Orders where oId=?";
+            pst = connection.prepareStatement(query);
+            pst.setInt(1, id);
+            pst.execute();
+            //result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print(e.getMessage());
+        }
+        //return result;
     }
 }

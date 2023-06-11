@@ -3,7 +3,12 @@
     Created on : Apr 20, 2023, 9:18:41 PM
     Author     : ADMIN
 --%>
-
+<%@page import="model.Product"%>
+<%@page import="java.util.List"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="dal.DBContext"%>
+<%@page import="model.Cart" %>
+<%@page import="java.util.ArrayList" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -29,6 +34,20 @@
         <link rel="stylesheet" href="css/product_home.css" type="text/css">
     </head>
     <body>
+           <%
+    user auth = (user) request.getSession().getAttribute("auth");
+    if (auth != null) {
+        request.setAttribute("person", auth);
+    }
+//    in ra product
+    ProductDAO pd = new ProductDAO();
+    List<Product> products = pd.getAllProducts();
+
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    if (cart_list != null) {
+        request.setAttribute("cart_list", cart_list);
+    }
+%>
         <div><%@include file="header.jsp" %></div>
 
         <!-- Hero Section Begin -->
@@ -140,14 +159,15 @@
                                                 <p>$<b>  60  </b></p>
                                             </div>
                                         </div>
+                                            
                                         <div class="product_button">
                                             <div class="product_button_detail">
                                                 <a href="describe?ProId=3" target="_blank"><b>CHI TIẾT </b></a>
                                             </div>
                                             <div class="product_button_order">
-                                                <div class="order"><a href="#"><i class="fa fa-shopping-cart"></i>
+                                                <div class="order"><a href="addtocart?id=3"><i class="fa fa-shopping-cart"></i>
                                                     </a></div>
-                                                <div class="order"><a href="#"><b>MUA NGAY</b> </a></div>                       
+                                                <div class="order"><a href="odernow/quantity=1&id=3"><b>MUA NGAY</b> </a></div>                       
                                             </div>
                                         </div>
                                     </a>
@@ -170,9 +190,9 @@
                                                 <a href="describe?ProId=8" target="_blank"><b>CHI TIẾT </b></a>
                                             </div>
                                             <div class="product_button_order">
-                                                <div class="order"><a href="#"><i class="fa fa-shopping-cart"></i>
+                                                <div class="order"><a href="addtocart?id=8"><i class="fa fa-shopping-cart"></i>
                                                     </a></div>
-                                                <div class="order"><a href="#"><b>MUA NGAY</b> </a></div>                       
+                                                <div class="order"><a href="odernow/quantity=1&id=8"><b>MUA NGAY</b> </a></div>                       
                                             </div>
                                         </div>
                                     </a>
@@ -195,9 +215,9 @@
                                                 <a href="describe?ProId=9" target="_blank"><b>CHI TIẾT </b></a>
                                             </div>
                                             <div class="product_button_order">
-                                                <div class="order"><a href="#"><i class="fa fa-shopping-cart"></i>
+                                                <div class="order"><a href="addtocart?id=9"><i class="fa fa-shopping-cart"></i>
                                                     </a></div>
-                                                <div class="order"><a href="#"><b>MUA NGAY</b> </a></div>                       
+                                                <div class="order"><a href="odernow/quantity=1&id=9"><b>MUA NGAY</b> </a></div>                       
                                             </div>
                                         </div>
                                     </a>
@@ -220,9 +240,9 @@
                                                 <a href="describe?ProId=12" target="_blank"><b>CHI TIẾT </b></a>
                                             </div>
                                             <div class="product_button_order">
-                                                <div class="order"><a href="#"><i class="fa fa-shopping-cart"></i>
+                                                <div class="order"><a href="addtocart?id=12"><i class="fa fa-shopping-cart"></i>
                                                     </a></div>
-                                                <div class="order"><a href="#"><b>MUA NGAY</b> </a></div>                       
+                                                <div class="order"><a href="odernow/quantity=1&id=12"><b>MUA NGAY</b> </a></div>                       
                                             </div>
                                         </div>
                                     </a>

@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Admin
@@ -73,5 +75,10 @@ public class Describe {
     public void setDacDiemNoiBat(String[] DacDiemNoiBat) {
         this.DacDiemNoiBat = DacDiemNoiBat;
     }
-
+@Override
+	public String toString() {
+		return "Describe [DesId=" + DesId + ", MauSac=" + MauSac + ", KichThuoc=" + KichThuoc
+				+ ", ChatLieu=" + ChatLieu + ", NoiSanXuat=" + NoiSanXuat + ","
+                        + " DacDiemNoiBat="+ Arrays.toString(DacDiemNoiBat) + "]";
+	}
 }

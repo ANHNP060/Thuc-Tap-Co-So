@@ -3,7 +3,12 @@
     Created on : Apr 26, 2023, 4:31:50 PM
     Author     : ADMIN
 --%>
-
+<%@page import="model.user"%>
+<%@ page import="model.Cart" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="dal.ProductDAO" %>
+<%@ page import="dal.DBContext" %>
+<%@ page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -26,6 +31,23 @@
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
     </head>
+    <%
+    user auth = (user) request.getSession().getAttribute("user");
+   if (auth != null) {
+        request.setAttribute("person", auth);
+    }
+//    lay ra sp trong cart_list
+    ArrayList<Cart> cart_list= (ArrayList<Cart>) session.getAttribute("cart-list");
+    List<Cart> cartProduct=null;
+    if(cart_list!=null){
+        ProductDAO pDao=new ProductDAO();
+        cartProduct=pDao.getCartProducts(cart_list);
+//        tinh total
+        long total=(long)pDao.getTotalCartPrice(cart_list);
+        request.setAttribute("cart_list",cart_list);
+        request.setAttribute("total",total);
+    }
+    %>
     <body>
         <%@include file="header.jsp" %>
         <!-- Breadcrumb Section Begin -->
@@ -48,7 +70,7 @@
         <!-- Breadcrumb Section End -->
 
         <!-- Shopping Cart Section Begin -->
-        <section class="shopping-cart spad">
+        <section style="margin-left: 200px;width: 1000px;" class="shopping-cart spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
@@ -61,39 +83,54 @@
                                         <th >Quantity</th>
                                         <th>Total</th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:set var="o" value="${sessionScope.cart}" />
-                                    <c:forEach var="i" items="${o.items}" >
-                                        <tr>
-                                            <td class="product__cart__item">
-                                                <div class="product__cart__item__text" style="width: 35%;height:35%;">
-                                                    <img src="img/product/${i.product.imagePro}" alt="${i.product.namePro}"/>
+                                    <%
+                                        if(cart_list!=null){
+                                            for(Cart c:cartProduct){%>
 
-                                                </div>
-                                            </td>
-                                            <td style="font-weight: bold;">${i.price}</td>
-                                            <td class="quantity__item">
-                                                <div class="quantity">
-                                                    <div class="pro-qty-2">
-                                                        <button><a href="process?num=-1&id=${i.product.proId}">-</a></button>
-                                                        <input type="text" readonly value="${i.quantity}">
-                                                        <button><a href="process?num=+1&id=${i.product.proId}">+</a></button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="cart__price">$ ${i.price * i.quantity}</td>
-                                            <td class="cart__close" style="width:20px;">
-                                                <form action="process" method="post">
-                                                    <input type="hidden" name="id" value="${i.product.proId}"/>
-                                                    <button style="border-radius: 50%;" type="submit"><i class="fa fa-close"></i></button>
-                                                </form>
-                                            </td>
-                                        </tr>   
-                                    </c:forEach>
+                                    <tr>
+                                        <td class="product__cart__item" style="width:200px;">
+                                            <div class="product__cart__item__text" style="width: 50%;height:50%;">
+                                                <img src="img/product/<%= c.getImagePro()%>" alt=""/>
+
+                                            </div>
+                                        </td>
+                                        <td style="font-weight: bold; margin-left: 50px;">$<%=c.getPrice()%></td>
+                                        <form action="ordernow" method="post">
+                                        <input type="hidden" name="id" value="<%=c.getProId()%>" class="form-input" />
+                                    <td class="quantity__item">
+                                        <div class="quantity">
+                                            <div class="pro-qty-2">
+                                                <button><a href="quantityincdec?action=inc&id=<%=c.getProId()%>">-</a></button>
+                                                <input type="text" name="quantity" readonly value="<%=c.getQuantity()%>">
+                                                <button><a href="quantityincdec?action=dec&id=<%=c.getProId()%>">+</a></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price" style="width:80px;">$<%=c.getPrice()*c.getQuantity()%> </td>
+                                    <td class="cart__close" style="width:20px;">
+                                        <a href="removeitem?id=<%=c.getProId()%>"><i class="fa fa-close"></i></a> 
+                                    </td>
+                                    
+                                    <td style="border:black;"> 
+                                        <button style="margin-left: 20px;background: white;color:black;" type="submit" class="btn btn-primary btn-sm">
+                                            Buy
+                                        </button></td>
+                                </form>
+                                </tr>   
+                                <%}
+                                  }
+                                %>
                                 </tbody>
                             </table>
+                        </div>
+                                <div style="margin-left: 470px">
+                            <h3>Total: ${(total>0)?total:0} $</h3>
+                            <br/>
+
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -103,7 +140,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="continue__btn update__btn">
-                                    <form action="checkout" method="get">
+                                    <form action="check_out" method="">
                                         <input style="background:black;color:white;border:none;font-size: 18px" type="submit" value="Check out"/>
                                     </form>
                                 </div>

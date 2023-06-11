@@ -1,63 +1,58 @@
-
 package model;
 
-import java.sql.Date;
-
-
-public class Order {
-    /*
-    	OrderId int primary key,
-	OrderDate Date not null,
-	UserId int references Users(UserID)
-	totalAmount int not null
-    */
-    private int OrderId;
-    private String OrderDate;
-    private int UserId;
-    private int totalAmount;
+public class Order extends Product{
+    private int orderId;
+	private int uid;
+    private int quantity;
+    private String date;
 
     public Order() {
     }
 
-    public Order(int OrderId, String OrderDate, int UserId, int totalAmount) {
-        this.OrderId = OrderId;
-        this.OrderDate = OrderDate;
-        this.UserId = UserId;
-        this.totalAmount = totalAmount;
+    public Order(int orderId, int uid, int quantity, String date) {
+        super();
+        this.orderId = orderId;
+        this.uid = uid;
+        this.quantity = quantity;
+        this.date = date;
+    }
+
+    public Order(int uid, int quantity, String date) {
+        super();
+        this.uid = uid;
+        this.quantity = quantity;
+        this.date = date;
     }
 
     public int getOrderId() {
-        return OrderId;
+        return orderId;
+    }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
-    public void setOrderId(int OrderId) {
-        this.OrderId = OrderId;
+    public int getUid() {
+        return uid;
     }
 
-    public String getOrderDate() {
-        return OrderDate;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    public void setOrderDate(String OrderDate) {
-        this.OrderDate = OrderDate;
+    public int getQuantity() {
+        return quantity;
     }
-
-    public int getUserId() {
-        return UserId;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-
-    public void setUserId(int UserId) {
-        this.UserId = UserId;
+    public String getDate() {
+        return date;
     }
-
-    public int getTotalAmount() {
-        return totalAmount;
+    public void setDate(String date) {
+        this.date = date;
     }
-
-    public void setTotalAmount(int totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    
-    
+    @Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", uid=" + uid + ", quantity=" + quantity + ", date=" + date + "]";
+	}
 }

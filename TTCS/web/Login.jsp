@@ -3,7 +3,13 @@
     Created on : May 22, 2023, 5:45:49 PM
     Author     : ADMIN
 --%>
-
+<%@page import="model.Product"%>
+<%@page import="java.util.List"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="dal.DBContext"%>
+<%@page import="model.Cart" %>
+<%@page import="model.user" %>
+<%@page import="java.util.ArrayList" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -14,16 +20,40 @@
 
         <title>Login</title>
         <link rel="stylesheet" href="css/login.css"/>
+        <style>
+            #signup a{
+                text-decoration: none;
+                color:white;
+            }
+            </style>
     </head>
+    <%
+    user auth = (user) request.getSession().getAttribute("user");
+   if (auth != null) {
+        request.setAttribute("person", auth);
+    }
+//    lay ra sp trong cart_list
+    ArrayList<Cart> cart_list= (ArrayList<Cart>) session.getAttribute("cart-list");
+    List<Cart> cartProduct=null;
+    if(cart_list!=null){
+        request.setAttribute("cart_list",cart_list);
+    }
+    %>
     <body>
+        <%
+		String error = request.getAttribute("error") + "";
+		error = (error.equals("null") ? "" : error);
+		%>
         <div class="signup">
             <div class="signup__container">
                 <h1>Sign In</h1>
-                <form  method="post"  action="login">
-                   
+                <small style="color:red;text-align: center;" id="error"><%=error%></small>
+                <form  method="post"  action="user">
+                    <input type="hidden" name="hanhDong" value="login" />
+
                     <div class="form-group"> 
-                        <h5>Username</h5>
-                        <input type="text" placeholder="Enter your name"  name="username" id="name" ><br/>
+                        <h5>Email</h5>
+                        <input type="text" placeholder="Enter your email"  name="email" id="name" ><br/>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -31,14 +61,14 @@
                         <input type="text" placeholder="Enter your password"  name="password" id="email" ><br/>
                         <span class="form-message"></span>
                     </div>
-                    <button type="submit" name="ok"  id="form-submit"">Đăng nhập</button> 
+                    <button style="margin-bottom: 15px;" type="submit" name="ok"  id="form-submit"">Đăng nhập</button>
                     <br/>
-                    <h3 style="color:red">Bạn chưa có tài khoản?</h3><br/>
-                    
-                </form>
-                <a href="signup"><button type="submit" name="ok"  id="form-submit" >Đăng ký ngay</button></a>
+                    <h3 style="color:blue">Bạn chưa có tài khoản?</h3>
+                    <button type="submit" name="ok"  id="signup" ><a href="signup.jsp">Đăng ký ngay</a></button>
 
-                <h3 style="color:red">${requestScope.error}</h3>
+                </form>
+
+               
             </div>
         </div>
     </body>

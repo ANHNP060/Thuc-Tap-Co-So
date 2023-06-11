@@ -3,7 +3,13 @@
     Created on : Apr 20, 2023, 9:20:38 PM
     Author     : ADMIN
 --%>
-
+<%@page import="model.Product"%>
+<%@page import="java.util.List"%>
+<%@page import="dal.ProductDAO"%>
+<%@page import="dal.DBContext"%>
+<%@page import="model.Cart" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="model.user" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -25,8 +31,59 @@
         <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <style>
+            .account{
+                position: relative;
+                display: flex;
+                flex-direction: row;
+            }
+            .info-name {
+	display: flex;
+	justify-content: center;
+}
+
+.logout {
+	display: none;
+	position: absolute;
+	top: 100%;
+	border-radius: 10px;
+	background-color: white;
+	padding: 5px;
+	border: 1px solid black;
+	z-index: 1;
+        color:black;
+}
+#info-name{
+    background: none;
+    color:white;
+    border:none;
+}
+#content{
+    margin-left: 390px;
+}
+        </style>
     </head>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('info-name').addEventListener('click',
+                    function () {
+                        var logoutDiv = document.getElementById('logout');
+                        if (logoutDiv.style.display === 'none') {
+                            logoutDiv.style.display = 'block';
+                        } else {
+                            logoutDiv.style.display = 'none';
+                        }
+                    });
+        });
+
+
+    </script>
+
     <body>
+        <%
+        String error = request.getAttribute("error") + "";
+        error = (error.equals("null") ? "" : error);
+        %>
         <!-- Page Preloder -->
         <div id="preloder">
             <div class="loader"></div>
@@ -64,26 +121,44 @@
                                 <p>Free shipping, 30-day return or refund guarantee.</p>
                             </div>
                         </div>
-                        <c:set var="size" value="${sessionScope.size}"/>
+                        <%
+                Object object = session.getAttribute("user");
+                user user = null;
+                if (object != null) {
+                        user = (user) object;
+                }
+                if (user == null) {
+                        %>
                         <div class="col-lg-6 col-md-5">
                             <div class="header__top__right">
                                 <div class="header__top__links">
-                                    <c:if test="${sessionScope.account==null}">
-                                        <div id="login_item" >
-                                            <a href="login">Sign in </a>
-                                        </div>
-                                    </c:if> 
-                                    <c:if test="${sessionScope.account!=null}">
+                                    <div id="login_item" >
+                                        <a href="login.jsp">Sign in </a>
+                                    </div>
+                                    <%
+                                        } else {
+                                    %>
+                                    <div id="content">
                                         <div class="account">
-                                            <i style="color:white; font-size: 20px" class="fa fa-user"></i>
-                                            <a href="login"><h5 style="color:white"> ${sessionScope.account.username}</h5></a>
+                                            <button class="header_member info-name" id="info-name">
+                                                <i style="color:white; font-size: 20px" class="fa fa-user"></i>
+                                                <h5 style="color:white"> <%=user.getFullname()%></h5>
+                                            </button>
+                                            <div class="logout" id="logout">
+                                                <a style="color: black;"
+                                                   href="user?hanhDong=logout"><i
+                                                        class="fa-solid fa-right-from-bracket"></i> Đăng xuất </a>
+                                            </div>
                                         </div>
-                                        <div class="cart box">
-                                            <a href="cart">
-                                                <i style="color:white" class="fa fa-shopping-cart">(${size})</i>
+                                        <div class="cart box" id="logout">
+                                            <a href="cart.jsp">
+                                                <i style="color:white;font-size: 20px;" class="fa fa-shopping-cart">(${cart_list.size()})</i>
                                             </a>
                                         </div>
-                                    </c:if>
+                                    </div>
+                                    <%
+                                        }
+                                    %>
                                     <!--                                    <a href="#">FAQs</a>-->
                                 </div>
 
@@ -104,9 +179,9 @@
                             <ul>
                                 <li class="active"><a href="home">Home</a></li>
                                 <li><a href="shop">Shop</a></li>
-                                <li><a href="cart">Cart</a></li>
-                                <li><a href="checkout">Check Out</a></li>
-                                <li><a href="contact">Contacts</a></li>
+                                <li><a href="cart.jsp">Cart</a></li>
+                                <li><a href="order.jsp">Order</a></li>
+                                <li><a href="contact.jsp">Contacts</a></li>
                             </ul>
                         </nav>
                     </div>

@@ -3,7 +3,8 @@ package model;
 
 public class Product {
     private int ProId;
-    private String NamePro,ImagePro ;
+
+	private String NamePro, ImagePro;
     private int Price, Quantity;
     Category CateId;
     Describe DesId;
@@ -19,6 +20,14 @@ public class Product {
         this.Quantity = Quantity;
         this.CateId = CateId;
         this.DesId = DesId;
+    }
+    
+    public Product(String NamePro, String ImagePro, int Price, int Quantity, Category CateId) {
+        this.NamePro = NamePro;
+        this.ImagePro = ImagePro;
+        this.Price = Price;
+        this.Quantity = Quantity;
+        this.CateId = CateId;
     }
 
     public int getProId() {
@@ -76,6 +85,10 @@ public class Product {
     public void setDesId(Describe DesId) {
         this.DesId = DesId;
     }
-
     
+    @Override
+    public String toString() {
+    	return "Product [ProId=" + ProId + ", NamePro=" + NamePro + ", ImagePro=" + ImagePro + ", Price=" + Price
+    			+ ", Quantity=" + Quantity + ", CateId=" + CateId + ", DesId=" + DesId + "]";
+    }
 }

@@ -31,5 +31,8 @@ public class Category {
     public void setNameCate(String NameCate) {
         this.NameCate = NameCate;
     }
-    
+    @Override
+	public String toString() {
+		return "Category [CateId=" + CateId + ", NameCate=" + NameCate + "]";
+	}
 }

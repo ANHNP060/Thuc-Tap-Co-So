@@ -24,56 +24,126 @@
         <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <style>
+            .box {
+                width: 700px;
+                margin: auto;
+                padding: 20px;
+                font-family: sans-serif;
+                line-height: 1.5em;
+            }
+
+            .k1 {
+                font-size: 22px;
+                display: flex;
+                padding: 10px;
+            }
+
+            .k1 .k1_1 i {
+                color: #000;
+                font-size: 27px;
+            }
+            .k1 .k1_2 {
+                margin:0px 0px 0px 20px;
+                padding-top: 2px;
+            }
+
+            .k2 {
+                width: 630px;
+                margin-left: 100px;
+                height:2600px;
+            }
+
+            .k2_1 {
+                display: flex;
+                margin: 15px 0px 0px;
+            }
+
+            .k2_1 p{
+                font-size: 16px;
+                color: #4a4a4a;
+                height: 60px;
+                margin: auto;
+            }
+
+            iframe {
+                margin-top: 30px;
+                margin-bottom: 30px;
+                height:2300px;
+            }
+            .account{
+                position: relative;
+                display: flex;
+                flex-direction: row;
+            }
+            .info-name {
+                display: flex;
+                justify-content: center;
+            }
+
+            .logout {
+                display: none;
+                position: absolute;
+                top: 100%;
+                border-radius: 10px;
+                background-color: white;
+                padding: 5px;
+                border: 1px solid black;
+                z-index: 1;
+                color:black;
+            }
+            #info-name{
+                background: none;
+                color:white;
+                border:none;
+            }
+            #content{
+                margin-left: 390px;
+            }
+        </style>
     </head>
+
     <body>
+        <%
+user auth = (user) request.getSession().getAttribute("auth");
+if (auth != null) {
+    request.setAttribute("person", auth);
+}
+//    in ra product
+ProductDAO pd = new ProductDAO();
+List<Product> products = pd.getAllProducts();
+
+ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+if (cart_list != null) {
+    request.setAttribute("cart_list", cart_list);
+}
+        %>
         <div><%@include file="header.jsp" %></div>
 
-        <!-- Contact Section Begin -->
-        <section class="contact spad">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="contact__text">
-                            <div class="section-title">
-                                <span>Information</span>
-                                <h2>Contact Us</h2>
-                                <p>As you might expect of a company that began as a high-end interiors contractor, we pay
-                                    strict attention.</p>
-                            </div>
-                            <ul>
-                                <li>
-                                    <h4>America</h4>
-                                    <p>195 E Parker Square Dr, Parker, CO 801 <br />+43 982-314-0958</p>
-                                </li>
-                                <li>
-                                    <h4>France</h4>
-                                    <p>109 Avenue Léon, 63 Clermont-Ferrand <br />+12 345-423-9893</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="contact__form">
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <input type="text" placeholder="Name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" placeholder="Email">
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <textarea placeholder="Message"></textarea>
-                                        <button type="submit" class="site-btn">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="box">
+            <div class="k1">
+                <div class="k1_1">
+                    <!--				<a href="#"><i class="fa-solid fa-arrow-left"></i></a>-->
+                </div>
+                <div class="k1_2">
+                    <b>GÓP Ý VÀ PHẢN HỒI</b>
                 </div>
             </div>
-        </section>
-        <!-- Contact Section End -->
+            <div class="k2">
+                <div class="k2_1">
+                    <div>
+                        <img src="img/smember.png" alt="Smember">
+                    </div>
+                    <p>Mời bạn đánh giá mức độ hài lòng về chương trình ưu đãi
+                        BBmember của BoonBoon. Hãy cho chúng mình thêm góp ý để cải thiện
+                        tốt hơn</p>
+                </div>
+                <iframe
+                    src="https://forms.gle/ZyGcqeMs2EMToxpKA"
+                    width="630" height="520" frameborder="0" marginheight="0"
+                    marginwidth="0">Đang tải…</iframe>
+            </div>
+        </div>
         <div><%@include file="footer.jsp" %></div>
         <!-- Js Plugins -->
         <script src="js/jquery-3.3.1.min.js"></script>

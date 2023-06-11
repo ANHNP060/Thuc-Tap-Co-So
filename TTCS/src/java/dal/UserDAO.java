@@ -1,45 +1,28 @@
-
 package dal;
 
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.User;
-
-
+import model.user;
 public class UserDAO extends DBContext{
-    public User getAcountUser(String user , String pass){
-        String sql = "select * from Users where Username=? and Password=?";
-        try{
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, user);
-            st.setString(2, pass);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()){
-                return new User(rs.getInt(1), rs.getString(2),
-                        rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
-            }
-        }catch(SQLException e){
-            System.out.println(e);
-        }
-        return null;
-    }
-    public List<User> getAllUser(){
-		List <User> list = new ArrayList<>();
+	public List <user> getAllUser(){
+		List <user> list = new ArrayList<>();
 		String sql = "select * from Users";
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
-				User u = new User();
+				user u = new user();
 				u.setUserId(rs.getInt("UserId"));
-				u.setUsername(rs.getString("Username"));
-				u.setEmail(rs.getString("Email"));
-				u.setPhone_number(rs.getString("Phone_number"));
-				u.setAddress(rs.getString("Address"));
-				u.setPassword(rs.getString("Pasword"));
+				u.setFullname(rs.getString("fullname"));
+				u.setEmail(rs.getString("email"));
+				u.setPhoneNumber(rs.getString("phone_number"));
+				u.setAddress(rs.getString("address"));
+				u.setPassword(rs.getString("password"));
 				list.add(u);
 				
 			}
@@ -48,41 +31,41 @@ public class UserDAO extends DBContext{
 		}
 		return list;
 	}
-	public  User userlogin(String email, String password) {
-		User u = null;
+	public user userlogin(String email, String password) {
+		user user = null;
 		try {
-			String sqlLogin = "select * from Users where Email=? and Password = ?";
+			String sqlLogin = "select * from users where email=? and password = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
-				u = new User();
-				u.setUserId(resultSet.getInt("UserId"));
-				u.setUsername(resultSet.getString("Username"));
-				u.setEmail(resultSet.getString("Email"));
-				u.setPhone_number(resultSet.getString("Phone_number"));
-				u.setAddress(resultSet.getString("Address"));
-				u.setPassword(resultSet.getString("Pasword"));
+				user = new user();
+				user.setUserId(resultSet.getInt("userId"));
+				user.setFullname(resultSet.getString("fullname"));
+				user.setEmail(resultSet.getString("email"));
+				user.setPhoneNumber(resultSet.getString("phone_number"));
+				user.setAddress(resultSet.getString("address"));
+				user.setPassword(resultSet.getString("password"));
 				
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		return u;
+		return user;
 	}
 	
-	public void signup(User u) {
+	public void signup(user u) {
 		try {
-			String sqlInsert = "INSERT INTO Users (UserId, Username, Email, Phone_number,"
-					+ " Address, Password) "
+			String sqlInsert = "INSERT INTO [DatabaseTTCS].[dbo].[Users] (userId, fullname, email, phone_number,"
+					+ " address, password) "
 					+ "VALUES(?,?,?,?,?,?)";
 			PreparedStatement st = connection.prepareStatement(sqlInsert);
 			
 				st.setInt(1, u.getUserId());
-				st.setString(2, u.getUsername());
+				st.setString(2, u.getFullname());
 				st.setString(3, u.getEmail());
-				st.setString(4, u.getPhone_number());
+				st.setString(4, u.getPhoneNumber());
 				st.setString(5, u.getAddress());
 				st.setString(6, u.getPassword());
 				
@@ -96,12 +79,12 @@ public class UserDAO extends DBContext{
 		}
 	}
 	
-	public boolean checkUser(String Email) {
+	public boolean checkUser(String email) {
 		boolean result = false;
 		try {
-			String sqlSelectByEmail = "select * from Users where Email=?";
+			String sqlSelectByEmail = "select * from Users where email=?";
 			PreparedStatement st = connection.prepareStatement(sqlSelectByEmail);
-			st.setString(1, Email);
+			st.setString(1, email);
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				result = true;
@@ -113,9 +96,33 @@ public class UserDAO extends DBContext{
 		}
 		return result;
 	}
+	public List <user> getAllUserBySearch(String text){
+		List <user> list = new ArrayList<>();
+		String sql = "select * from Users where fullname like '%" + text + "%' ";
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+//			st.setString(1, text);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				user u = new user();
+				u.setUserId(rs.getInt("UserId"));
+				u.setFullname(rs.getString("fullname"));
+				u.setEmail(rs.getString("email"));
+				u.setPhoneNumber(rs.getString("phone_number"));
+				u.setAddress(rs.getString("address"));
+				u.setPassword(rs.getString("password"));
+				list.add(u);
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		UserDAO uDao = new UserDAO();
-		System.out.println(uDao.userlogin("anh9195358@gmail.com", "phuthuytocdo24522"));
+		System.out.println(uDao.userlogin("tramydotnat@gmail.com", "1520031234"));
 	}
-    
+
 }

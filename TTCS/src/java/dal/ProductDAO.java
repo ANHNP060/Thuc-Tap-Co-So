@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Cart;
 import model.Category;
 import model.Describe;
 import model.Product;
@@ -19,7 +20,15 @@ import model.Product;
  * @author Admin
  */
 public class ProductDAO extends DBContext {
-
+// private Connection con;
+//	    private String query;
+//	    private PreparedStatement pst;
+//	    private ResultSet rs;
+//	//hieu them
+//	    public ProductDAO(Connection con) {
+//	        this.con=con;
+//	    }
+	    public ProductDAO(){}
     public Category getCategoryByCateId(int CateId) {
         String sql = "select * from Categories where CateId=?";
         try {
@@ -295,4 +304,80 @@ public class ProductDAO extends DBContext {
             System.out.println(e);
         }
     }
+    public List<Cart> getCartProducts(ArrayList<Cart> cartList) {
+        List<Cart> book = new ArrayList<>();
+        try {
+            if (cartList.size() > 0) {
+                for (Cart item : cartList) {
+                    String query = "select * from Products where ProId=?";
+                    PreparedStatement pst = connection.prepareStatement(query);
+                    pst.setInt(1, item.getProId());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        Cart row = new Cart();
+                        row.setProId(rs.getInt("ProId"));
+                        row.setNamePro(rs.getString("NamePro"));
+                        row.setPrice(rs.getInt("Price")*item.getQuantity());
+                        row.setQuantity(item.getQuantity());
+                        row.setImagePro(rs.getString("ImagePro"));
+                        book.add(row);
+                    }
+
+                }
+                System.out.println(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return book;
+    }
+    
+
+    //    tinh tong tien trong cart
+    public long getTotalCartPrice(ArrayList<Cart> cartList) {
+        long sum = 0;
+        try {
+            if (cartList.size() > 0) {
+                for (Cart item : cartList) {
+                    String query = "select Price from Products where ProId=?";
+                    PreparedStatement pst = connection.prepareStatement(query);
+                    pst.setInt(1, item.getProId());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        sum+=rs.getInt("Price")*item.getQuantity();
+                    }
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        // Tạo danh sách giỏ hàng
+        ArrayList<Cart> cartList = new ArrayList<>();
+        ProductDAO proDao = new ProductDAO();
+        // Thêm các sản phẩm vào giỏ hàng
+        cartList.add(new Cart());
+        cartList.add(new Cart());
+
+        // Lấy danh sách các sản phẩm từ giỏ hàng
+        List<Cart> productList = proDao.getCartProducts(cartList);
+
+        // In ra các sản phẩm trong giỏ hàng
+        for (Cart product : productList) {
+            System.out.println("Product ID: " + product.getProId());
+            System.out.println("Name: " + product.getNamePro());
+            System.out.println("Price: " + product.getPrice());
+            System.out.println("Quantity: " + product.getQuantity());
+            System.out.println("Image: " + product.getImagePro());
+            System.out.println("-----------------------");
+        }
+}
 }

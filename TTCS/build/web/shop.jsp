@@ -26,12 +26,20 @@
         <link rel="stylesheet" href="css/style.css" type="text/css">
         <link rel="stylesheet" href="css/product_css.css">
     </head>
-    <script>
-        function buy(id) {
-            document.myForm.action = "buy?ProId=" + id;
-            document.myForm.submit();
-        }
-    </script>
+    <%
+    user auth = (user) request.getSession().getAttribute("auth");
+    if (auth != null) {
+        request.setAttribute("person", auth);
+    }
+//    in ra product
+    ProductDAO pd = new ProductDAO();
+    List<Product> products = pd.getAllProducts();
+
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    if (cart_list != null) {
+        request.setAttribute("cart_list", cart_list);
+    }
+%>
     <body>
         <div><%@include file="header.jsp" %></div>
         <!-- Breadcrumb Section Begin -->
@@ -73,16 +81,16 @@
                                             <div class="card-body">
                                                 <div class="shop__sidebar__categories">
                                                     <ul class="nice-scroll">
-                                                        <li><a href="category?CateId=" >All</a> </li>
-                                                        <li><a href="category?CateId=1">Men (20)</a></li>
-                                                        <li><a href="category?CateId=2">Women (20)</a></li>
-                                                        <li><a href="category?CateId=4">Bags (20)</a></li>
-                                                        <li><a href="category?CateId=6">Clothing (20)</a></li>
-                                                        <li><a href="category?CateId=5">Shoes (20)</a></li>
-                                                        <li><a href="category?CateId=7">Accessories (20)</a></li>
-                                                        <li><a href="category?CateId=3">Kids (20)</a></li>
-                                                        <li><a href="category?CateId=8">Hats (20)</a></li>
-                                                        <li><a href="category?CateId=9">Glass (20)</a></li>
+                                                        <li><a href="home?CateId=" >All</a> </li>
+                                                        <li><a href="home?CateId=1">Men (20)</a></li>
+                                                        <li><a href="home?CateId=2">Women (20)</a></li>
+                                                        <li><a href="home?CateId=4">Bags (20)</a></li>
+                                                        <li><a href="home?CateId=6">Clothing (20)</a></li>
+                                                        <li><a href="home?CateId=5">Shoes (20)</a></li>
+                                                        <li><a href="home?CateId=7">Accessories (20)</a></li>
+                                                        <li><a href="home?CateId=3">Kids (20)</a></li>
+                                                        <li><a href="home?CateId=8">Hats (20)</a></li>
+                                                        <li><a href="home?CateId=9">Glass (20)</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -262,9 +270,9 @@
                                                     <a href="describe?ProId=${p}" target="_blank"><b>CHI TIẾT </b></a>
                                                 </div>
                                                 <div class="product_button_order">
-                                                    <div  style="color:red;" class="order"><a type="submit" onclick="buy(${p})"><i  class="fa fa-shopping-cart"></i>
+                                                    <div  style="color:red;" class="order"><a href="addtocart?id=${p}"><i  class="fa fa-shopping-cart"></i>
                                                         </a></div>
-                                                    <div class="order"><a href="#"><b>MUA NGAY</b> </a></div>                       
+                                                    <div class="order"><a href="ordernow?quantity=1&id=${p}"><b>MUA NGAY</b> </a></div>                       
                                                 </div>
                                             </div>
                                         </form>
